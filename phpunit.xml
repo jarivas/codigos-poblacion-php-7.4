@@ -4,8 +4,8 @@
          bootstrap="tests/autoload.php"
          colors="true">
     <testsuites>
-        <testsuite name="Install">
-            <directory suffix="Test.php">./tests/Install</directory>
+        <testsuite name="Normall">
+            <directory suffix="Test.php">./tests/</directory>
         </testsuite>
     </testsuites>
     <logging>

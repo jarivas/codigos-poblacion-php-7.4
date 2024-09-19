@@ -6,6 +6,7 @@ namespace CodigosPoblacion\Tests\Install;
 
 use PHPUnit\Framework\TestCase;
 use CodigosPoblacion\Install\CsvImporter;
+use CodigosPoblacion\Models\Database\Connection;
 
 class CsvImporterTest extends TestCase
 {
@@ -13,6 +14,14 @@ class CsvImporterTest extends TestCase
     {
         $result = CsvImporter::import();
 
-        $this->assertNull($result);
+        $this->assertIsInt($result);
+        $this->assertGreaterThan(0, $result);
+    }
+
+    protected function setUp(): void
+    {
+        $connection = Connection::getInstance();
+
+        $connection->exec('DELETE FROM municipio');
     }
 }

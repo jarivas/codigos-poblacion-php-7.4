@@ -31,41 +31,24 @@ class CsvImporter
         return $result;
     }
 
-    /**
-     * Reads municipios from the csv file
-     * @return Municipio[]|string
-     */
-    public static function readMunicipios(): array|string
+    public static function import(): string|int
     {
-        /**
-         * @var Municipio[]
-         */
-        $data = self::readCsv('municipios.csv', Municipio::class);
-        $result = [];
-
-        foreach ($data as $item) {
-            $result[$item->codigo] = $item;
-        }
-
-        return $result;
-    }
-
-    public static function import(): ?string
-    {
+        $count = 0;
         $provincias = self::readProvincias();
 
         if (is_string($provincias)) {
             return $provincias;
         }
 
-        $municipios = self::readMunicipios();
+        $municipios = self::readCsv('municipios.csv', Municipio::class);
 
         if (is_string($municipios)) {
             return $municipios;
         }
 
         try {
-            foreach ($municipios as $codigo => $municipio) {
+            foreach ($municipios as $municipio) {
+                $codigo = $municipio->codigo;
                 $provincia = $provincias[$codigo]->nombre;
                 $nombre = $municipio->nombre;
 
@@ -74,18 +57,19 @@ class CsvImporter
                     'codigo_control' => $municipio->codigo_control,
                     'provincia' => $provincia,
                     'nombre' => $nombre,
-                    'nombre_provincia' => "$provincia $nombre"
+                    'nombre_provincia' => self::cleanString("$provincia $nombre")
                 ];
 
                 $dbModel = new DbMunicipio($data);
                 $dbModel->save();
+                ++$count;
             }
 
         } catch (Exception $e) {
             return $e->getMessage();
         }
 
-        return null;
+        return $count;
     }
 
     private static function readCsv(string $fileName, string $modelClass): array|string
@@ -154,5 +138,14 @@ class CsvImporter
         }
 
         return $headers;
+    }
+
+    private static function cleanString(string $string): string
+    {
+        $string = trim($string);
+        $string = strtolower($string);
+        $string = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
+
+        return $string;
     }
 }

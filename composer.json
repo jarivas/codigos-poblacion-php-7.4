@@ -13,5 +13,7 @@
         "CodigosPoblacion\\": "src/",
         "CodigosPoblacion\\Tests\\": "tests/"
       }
-    }
+    },
+    "license": "GPL-3.0-or-later",
+    "version": "1.0.0"
 }
