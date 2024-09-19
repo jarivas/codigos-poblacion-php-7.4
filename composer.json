@@ -1,5 +1,5 @@
 {
-    "name": "jarivas/sql-models",
+    "name": "jarivas/codigos-poblacion",
     "type": "library",
     "require": {
         "jarivas/sql-models": "^1.7",
