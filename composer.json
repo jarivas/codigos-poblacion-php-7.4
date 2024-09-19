@@ -1,4 +1,5 @@
 {
+    "name": "jarivas/sql-models",
     "type": "library",
     "require": {
         "jarivas/sql-models": "^1.7",
