@@ -4,27 +4,42 @@ declare(strict_types=1);
 
 namespace CodigosPoblacion;
 
-use CodigosPoblacion\Models\Database\Municipio;
 
 class SearchMunicipio
 {
+    private Connection $connection;
+
     /**
      * It requires $query length would be longer than 3, search on provincias name and municipio name
      * @param string $query
      * @return Municipio[]|null
      */
-    public static function search(string $query, int $offset = 0, int $limit = 100): ?array
+    public function search(string $query, int $offset = 0, int $limit = 100): ?array
     {
         if (strlen($query) < 3) {
             return null;
         }
 
-        $model = new Municipio();
+        $this->setConnection();
 
-        $model->where('nombre_provincia', 'LIKE', "%$query%");
-        $model->offset($offset);
-        $model->limit($limit);
+        $sql = $this->getSql($query, $offset, $limit);
 
-        return $model->query();
+        return $this->connection->query($sql, Municipio::class);
+    }
+
+    private function setConnection(): void
+    {
+        $root = dirname(__DIR__, 1);
+        $path = "$root/data/database.sqlite";
+
+        $this->connection = new Connection($path);
+    }
+
+    private function getSql(string $query, int $offset, int $limit): string
+    {
+        return 'SELECT codigo, provincia, nombre ' .
+            'FROM municipio ' .
+            "WHERE nombre_provincia LIKE '%$query%' " .
+            "LIMIT $limit OFFSET $offset ";
     }
 }

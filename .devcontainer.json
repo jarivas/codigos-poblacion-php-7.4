@@ -1,0 +1,22 @@
+{
+	"name": "codigos-poblacion",
+	"dockerComposeFile": [
+		"docker-compose.yml"
+	],
+	"service": "dev",
+	"containerUser": "dev",
+	"workspaceFolder": "/app",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"DEVSENSE.phptools-vscode",
+				"SanderRonde.phpstan-vscode",
+				"ecodes.vscode-phpmd",
+				"EditorConfig.EditorConfig"
+			],
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "bash"
+			}
+		}
+	}
+}

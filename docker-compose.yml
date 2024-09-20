@@ -1,0 +1,12 @@
+services:
+  dev:
+    build:
+        context: .
+        dockerfile: Dockerfile
+        args:
+            USERNAME: dev
+            USER_UID: 1000
+    volumes:
+        - .:/app
+
+    

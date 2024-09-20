@@ -14,7 +14,7 @@ class SearchMunicipioTest extends TestCase
         $search = new SearchMunicipio();
 
         $result = $search->search('mal');
-
+        
         $this->assertIsArray($result);
     }
 }
