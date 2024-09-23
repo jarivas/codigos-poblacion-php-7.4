@@ -29,8 +29,8 @@ class SearchMunicipio
 
     private function setConnection(): void
     {
-        $root = dirname(__DIR__, 1);
-        $path = "$root/data/database.sqlite";
+        $dir = __DIR__;
+        $path = "$dir/data/database.sqlite";
 
         $this->connection = new Connection($path);
     }
