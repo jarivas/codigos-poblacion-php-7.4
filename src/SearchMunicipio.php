@@ -11,10 +11,11 @@ class SearchMunicipio
 
     /**
      * It requires $query length would be longer than 3, search on provincias name and municipio name
+     * @param string $provinciaId
      * @param string $query
      * @return Municipio[]|null
      */
-    public function search(string $query, int $offset = 0, int $limit = 100): ?array
+    public function search(string $provinciaId, string $query, int $offset = 0, int $limit = 100): ?array
     {
         if (strlen($query) < 3) {
             return null;
@@ -22,9 +23,16 @@ class SearchMunicipio
 
         $this->setConnection();
 
-        $sql = $this->getSql($query, $offset, $limit);
+        $sql = $this->getSql($provinciaId, $query, $offset, $limit);
 
         return $this->connection->query($sql, Municipio::class);
+    }
+
+    public function getProvincias(): ?array
+    {
+        $this->setConnection();
+
+        return $this->connection->query('SELECT id, nombre, "fullText" FROM provincia', Provincia::class);
     }
 
     private function setConnection(): void
@@ -35,11 +43,12 @@ class SearchMunicipio
         $this->connection = new Connection($path);
     }
 
-    private function getSql(string $query, int $offset, int $limit): string
+    private function getSql(string $provinciaId, string $query, int $offset, int $limit): string
     {
         return 'SELECT codigo, provincia, nombre ' .
             'FROM municipio ' .
-            "WHERE nombre_provincia LIKE '%$query%' " .
+            "WHERE fullText LIKE '%$query%' " .
+            "AND provincia = $provinciaId " .
             "LIMIT $limit OFFSET $offset ";
     }
 }

@@ -13,8 +13,33 @@ class SearchMunicipioTest extends TestCase
     {
         $search = new SearchMunicipio();
 
-        $result = $search->search('mal');
+        $result = $search->search('31', 'mal');
         
         $this->assertIsArray($result);
+
+        $this->assertGreaterThan(1, count($result));
+
+        $data = $result[0];
+
+        $this->assertObjectHasAttribute('codigo', $data);
+        $this->assertObjectHasAttribute('provincia', $data);
+        $this->assertObjectHasAttribute('nombre', $data);
+    }
+
+    public function test_get_provincias(): void
+    {
+        $search = new SearchMunicipio();
+
+        $result = $search->getProvincias();
+        
+        $this->assertIsArray($result);
+
+        $data = $result[0];
+        
+
+        $this->assertObjectHasAttribute('id', $data);
+        $this->assertObjectHasAttribute('nombre', $data);
+        $this->assertObjectHasAttribute('fullText', $data);
+
     }
 }

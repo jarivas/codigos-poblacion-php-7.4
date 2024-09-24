@@ -7,7 +7,7 @@ namespace CodigosPoblacion;
 class Municipio
 {
     public string $codigo;
-    public string $provincia;
+    public int $provincia;
     public string $municipio;
 
     public function __construct(array $data)
