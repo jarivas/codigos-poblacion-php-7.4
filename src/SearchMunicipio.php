@@ -47,7 +47,7 @@ class SearchMunicipio
     {
         return 'SELECT codigo, provincia, nombre ' .
             'FROM municipio ' .
-            "WHERE fullText LIKE '%$query%' " .
+            "WHERE fullText LIKE '$query%' " .
             "AND provincia = $provinciaId " .
             "LIMIT $limit OFFSET $offset ";
     }
